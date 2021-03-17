@@ -1,16 +1,21 @@
 package com.devsuperior.dscatalog.services;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.devsuperior.dscatalog.util.Convertible;
 
 @Service
-public interface GenericService<T, ID> {
+public interface GenericService<T extends Convertible<DTO>, DTO, ID> {
 
 	JpaRepository<T, ID> getRepository();
 	
-	default List<T> findAll() {
-		return getRepository().findAll();
+	@Transactional(readOnly = true)
+	default List<DTO> findAll() {
+		return getRepository().findAll().stream().map(x -> x.convert()).collect(Collectors.toList());
 	}
 }

@@ -8,9 +8,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.devsuperior.dscatalog.dto.CategoryDTO;
+import com.devsuperior.dscatalog.util.Convertible;
+
 @Entity
 @Table(name = "tb_category")
-public class Category implements Serializable {
+public class Category implements Serializable, Convertible<CategoryDTO> {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -66,4 +69,10 @@ public class Category implements Serializable {
 			return false;
 		return true;
 	}
+
+	@Override
+	public CategoryDTO convert() {
+		return new CategoryDTO(this);
+	}
+
 }
