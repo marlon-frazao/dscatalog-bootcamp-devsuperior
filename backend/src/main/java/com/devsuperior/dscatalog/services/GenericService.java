@@ -16,6 +16,6 @@ public interface GenericService<T extends Convertible<DTO>, DTO, ID> {
 	
 	@Transactional(readOnly = true)
 	default List<DTO> findAll() {
-		return getRepository().findAll().stream().map(x -> x.convert()).collect(Collectors.toList());
+		return getRepository().findAll().stream().map(T::convert).collect(Collectors.toList());
 	}
 }
