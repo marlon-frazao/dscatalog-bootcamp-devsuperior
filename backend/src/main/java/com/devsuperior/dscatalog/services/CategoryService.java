@@ -19,4 +19,11 @@ public class CategoryService implements GenericService<Category, CategoryDTO, Lo
 		return repository;
 	}
 
+	@Override
+	public CategoryDTO insert(CategoryDTO dto) {
+		Category entity = new Category(null, dto.getName());
+		
+		return repository.save(entity).convert();
+	}
+
 }

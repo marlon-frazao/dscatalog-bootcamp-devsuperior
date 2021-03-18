@@ -25,4 +25,7 @@ public interface GenericService<T extends Convertible<DTO>, DTO, ID> {
 		return getRepository().findById(id).orElseThrow(() -> new EntityNotFoundException("Entity not found!"))
 				.convert();
 	}
+	
+	@Transactional
+	DTO insert(DTO dto);
 }
