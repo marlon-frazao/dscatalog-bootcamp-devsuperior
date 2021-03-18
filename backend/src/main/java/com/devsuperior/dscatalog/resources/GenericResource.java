@@ -3,6 +3,7 @@ package com.devsuperior.dscatalog.resources;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,5 +35,11 @@ public interface GenericResource<T extends Convertible<DTO>, DTO, ID> {
 	@PutMapping(value = "/{id}")
 	default ResponseEntity<DTO> update(@PathVariable ID id, @RequestBody DTO dto) {
 		return ResponseEntity.ok().body(getService().update(id, dto));
+	}
+	
+	@DeleteMapping(value = "/{id}")
+	default ResponseEntity<DTO> delete(@PathVariable ID id) {
+		getService().delete(id);
+		return ResponseEntity.noContent().build();
 	}
 }
