@@ -8,14 +8,14 @@ import org.springframework.stereotype.Service;
 
 import com.devsuperior.dscatalog.dto.CategoryDTO;
 import com.devsuperior.dscatalog.entities.Category;
-import com.devsuperior.dscatalog.repositories.CategoryRespository;
+import com.devsuperior.dscatalog.repositories.CategoryRepository;
 import com.devsuperior.dscatalog.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class CategoryService implements GenericService<Category, CategoryDTO, Long> {
 
 	@Autowired
-	private CategoryRespository repository;
+	private CategoryRepository repository;
 
 	@Override
 	public JpaRepository<Category, Long> getRepository() {

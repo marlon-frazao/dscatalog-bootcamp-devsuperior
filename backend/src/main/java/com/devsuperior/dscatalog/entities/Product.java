@@ -15,9 +15,12 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.devsuperior.dscatalog.dto.ProductDTO;
+import com.devsuperior.dscatalog.util.Convertible;
+
 @Entity
 @Table(name = "tb_product")
-public class Product implements Serializable {
+public class Product implements Serializable, Convertible<ProductDTO> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -125,5 +128,10 @@ public class Product implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	@Override
+	public ProductDTO convert() {
+		return new ProductDTO(this, this.categories);
 	}
 }
