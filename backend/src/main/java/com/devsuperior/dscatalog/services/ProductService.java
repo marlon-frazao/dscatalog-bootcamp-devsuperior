@@ -27,7 +27,7 @@ public class ProductService implements GenericService<Product, ProductDTO, Long>
 	@Override
 	public Page<ProductDTO> findAllPaged(PageRequest pageRequest) {
 		Page<Product> list = getRepository().findAll(pageRequest);
-		return list.map(x -> new ProductDTO(x));
+		return list.map(ProductDTO::new);
 	}
 
 	@Override
