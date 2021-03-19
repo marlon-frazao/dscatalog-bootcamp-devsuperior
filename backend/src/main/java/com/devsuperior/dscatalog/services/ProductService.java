@@ -8,8 +8,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
+import com.devsuperior.dscatalog.dto.CategoryDTO;
 import com.devsuperior.dscatalog.dto.ProductDTO;
 import com.devsuperior.dscatalog.entities.Product;
+import com.devsuperior.dscatalog.repositories.CategoryRepository;
 import com.devsuperior.dscatalog.repositories.ProductRepository;
 import com.devsuperior.dscatalog.services.exceptions.ResourceNotFoundException;
 
@@ -18,6 +20,9 @@ public class ProductService implements GenericService<Product, ProductDTO, Long>
 
 	@Autowired
 	private ProductRepository repository;
+	
+	@Autowired
+	private CategoryRepository categoryRepository;
 
 	@Override
 	public JpaRepository<Product, Long> getRepository() {
@@ -33,7 +38,7 @@ public class ProductService implements GenericService<Product, ProductDTO, Long>
 	@Override
 	public ProductDTO insert(ProductDTO dto) {
 		Product entity = new Product();
-
+		copyDtoToEntity(dto, entity);
 		return repository.save(entity).convert();
 	}
 
@@ -41,11 +46,23 @@ public class ProductService implements GenericService<Product, ProductDTO, Long>
 	public Product updateData(Long id, ProductDTO dto) {
 		try {
 			Product entity = repository.getOne(id);
-			//entity.setName(dto.getName());
+			copyDtoToEntity(dto, entity);
 			return entity;
 		} catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id not found " + id);
 		}
 	}
 
+	private void copyDtoToEntity(ProductDTO dto, Product entity) {
+		entity.setName(dto.getName());
+		entity.setDescription(dto.getDescription());
+		entity.setPrice(dto.getPrice());
+		entity.setDate(dto.getDate());
+		entity.setImgUrl(dto.getImgUrl());
+		
+		entity.getCategories().clear();
+		for(CategoryDTO catDto : dto.getCategories()) {
+			entity.getCategories().add(categoryRepository.getOne(catDto.getId()));
+		}
+	}
 }

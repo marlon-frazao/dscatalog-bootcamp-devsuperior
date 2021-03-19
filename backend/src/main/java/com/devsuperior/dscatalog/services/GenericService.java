@@ -1,7 +1,5 @@
 package com.devsuperior.dscatalog.services;
 
-import javax.persistence.EntityNotFoundException;
-
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
@@ -27,7 +25,7 @@ public interface GenericService<T extends Convertible<DTO>, DTO, ID> {
 
 	@Transactional(readOnly = true)
 	default DTO findById(ID id) {
-		return getRepository().findById(id).orElseThrow(() -> new EntityNotFoundException("Entity not found!"))
+		return getRepository().findById(id).orElseThrow(() -> new ResourceNotFoundException("Entity not found!"))
 				.convert();
 	}
 
