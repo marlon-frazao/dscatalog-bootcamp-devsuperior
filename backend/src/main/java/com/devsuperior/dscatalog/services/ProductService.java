@@ -8,7 +8,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
-import com.devsuperior.dscatalog.dto.CategoryDTO;
 import com.devsuperior.dscatalog.dto.ProductDTO;
 import com.devsuperior.dscatalog.entities.Product;
 import com.devsuperior.dscatalog.repositories.CategoryRepository;
@@ -61,8 +60,7 @@ public class ProductService implements GenericService<Product, ProductDTO, Long>
 		entity.setImgUrl(dto.getImgUrl());
 		
 		entity.getCategories().clear();
-		for(CategoryDTO catDto : dto.getCategories()) {
-			entity.getCategories().add(categoryRepository.getOne(catDto.getId()));
-		}
+		
+		dto.getCategories().forEach(catDto -> entity.getCategories().add(categoryRepository.getOne(catDto.getId())));
 	}
 }
