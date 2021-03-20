@@ -44,15 +44,13 @@ public class ProductService implements GenericService<Product, ProductDTO, Long>
 	@Override
 	public Product updateData(Long id, ProductDTO dto) {
 		try {
-			Product entity = repository.getOne(id);
-			copyDtoToEntity(dto, entity);
-			return entity;
+			return copyDtoToEntity(dto,  repository.getOne(id));
 		} catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id not found " + id);
 		}
 	}
 
-	private void copyDtoToEntity(ProductDTO dto, Product entity) {
+	private Product copyDtoToEntity(ProductDTO dto, Product entity) {
 		entity.setName(dto.getName());
 		entity.setDescription(dto.getDescription());
 		entity.setPrice(dto.getPrice());
@@ -62,5 +60,7 @@ public class ProductService implements GenericService<Product, ProductDTO, Long>
 		entity.getCategories().clear();
 		
 		dto.getCategories().forEach(catDto -> entity.getCategories().add(categoryRepository.getOne(catDto.getId())));
+		
+		return entity;
 	}
 }
