@@ -3,6 +3,8 @@ package com.devsuperior.dscatalog.services;
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
@@ -40,6 +42,12 @@ public class ProductService implements GenericService<Product, ProductDTO, Long>
 		} catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id not found " + id);
 		}
+	}
+	
+	@Override
+	public Page<ProductDTO> findAllPaged(PageRequest pageRequest) {
+		Page<Product> list = getRepository().findAll(pageRequest);
+		return list.map(x -> new ProductDTO(x));
 	}
 
 	private Product copyDtoToEntity(ProductDTO dto, Product entity) {
