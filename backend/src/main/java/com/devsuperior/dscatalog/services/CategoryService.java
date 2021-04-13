@@ -5,6 +5,7 @@ import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.devsuperior.dscatalog.dto.CategoryDTO;
 import com.devsuperior.dscatalog.entities.Category;
@@ -22,7 +23,7 @@ public class CategoryService implements GenericService<Category, CategoryDTO, Lo
 		return repository;
 	}
 
-	@Override
+	@Transactional
 	public CategoryDTO insert(CategoryDTO dto) {
 		Category entity = new Category(null, dto.getName());
 
