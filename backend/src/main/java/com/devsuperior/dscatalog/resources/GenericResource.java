@@ -1,5 +1,7 @@
 package com.devsuperior.dscatalog.resources;
 
+import javax.validation.Valid;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
@@ -37,7 +39,7 @@ public interface GenericResource<T extends Convertible<DTO>, DTO, ID> {
 	}
 
 	@PutMapping(value = "/{id}")
-	default ResponseEntity<DTO> update(@PathVariable ID id, @RequestBody DTO dto) {
+	default ResponseEntity<DTO> update(@PathVariable ID id, @Valid @RequestBody DTO dto) {
 		return ResponseEntity.ok().body(getService().update(id, dto));
 	}
 
