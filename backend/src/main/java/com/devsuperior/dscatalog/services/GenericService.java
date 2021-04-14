@@ -29,13 +29,6 @@ public interface GenericService<T extends Convertible<DTO>, DTO, ID> {
 				.convert();
 	}
 
-	@Transactional
-	default DTO update(ID id, DTO dto) {
-		return getRepository().save(updateData(id, dto)).convert();
-	}
-
-	T updateData(ID id, DTO dto);
-
 	default void delete(ID id) {
 		try {
 			getRepository().deleteById(id);

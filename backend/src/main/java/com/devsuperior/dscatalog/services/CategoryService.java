@@ -22,7 +22,7 @@ public class CategoryService implements GenericService<Category, CategoryDTO, Lo
 	public JpaRepository<Category, Long> getRepository() {
 		return repository;
 	}
-
+	
 	@Transactional
 	public CategoryDTO insert(CategoryDTO dto) {
 		Category entity = new Category(null, dto.getName());
@@ -30,14 +30,14 @@ public class CategoryService implements GenericService<Category, CategoryDTO, Lo
 		return repository.save(entity).convert();
 	}
 
-	@Override
-	public Category updateData(Long id, CategoryDTO dto) {
+	@Transactional
+	public CategoryDTO update(Long id, CategoryDTO dto) {
 		try {
 			Category entity = repository.getOne(id);
 			entity.setName(dto.getName());
-			return entity;
+			return repository.save(entity).convert();
 		} catch (EntityNotFoundException e) {
-			throw new ResourceNotFoundException("Id not found " + id);
+			throw new ResourceNotFoundException("Id not found: " + id);
 		}
 	}
 

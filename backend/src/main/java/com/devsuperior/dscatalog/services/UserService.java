@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.devsuperior.dscatalog.dto.UserDTO;
 import com.devsuperior.dscatalog.dto.UserInsertDTO;
+import com.devsuperior.dscatalog.dto.UserUpdateDTO;
 import com.devsuperior.dscatalog.entities.User;
 import com.devsuperior.dscatalog.repositories.RoleRepository;
 import com.devsuperior.dscatalog.repositories.UserRepository;
@@ -40,12 +41,14 @@ public class UserService implements GenericService<User, UserDTO, Long> {
 		return repository.save(entity).convert();
 	}
 
-	@Override
-	public User updateData(Long id, UserDTO dto) {
+	@Transactional
+	public UserDTO update(Long id, UserUpdateDTO dto) {
 		try {
-			return copyDtoToEntity(dto,  repository.getOne(id));
+			User entity = repository.getOne(id);
+			copyDtoToEntity(dto, entity);
+			return repository.save(entity).convert();
 		} catch (EntityNotFoundException e) {
-			throw new ResourceNotFoundException("Id not found " + id);
+			throw new ResourceNotFoundException("Id not found: " + id);
 		}
 	}
 

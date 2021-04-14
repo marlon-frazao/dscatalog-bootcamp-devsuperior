@@ -36,12 +36,14 @@ public class ProductService implements GenericService<Product, ProductDTO, Long>
 		return repository.save(entity).convert();
 	}
 
-	@Override
-	public Product updateData(Long id, ProductDTO dto) {
+	@Transactional
+	public ProductDTO update(Long id, ProductDTO dto) {
 		try {
-			return copyDtoToEntity(dto,  repository.getOne(id));
+			Product entity = repository.getOne(id);
+			copyDtoToEntity(dto, entity);
+			return repository.save(entity).convert();
 		} catch (EntityNotFoundException e) {
-			throw new ResourceNotFoundException("Id not found " + id);
+			throw new ResourceNotFoundException("Id not found: " + id);
 		}
 	}
 	
