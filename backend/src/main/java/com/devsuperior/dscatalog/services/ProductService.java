@@ -1,5 +1,8 @@
 package com.devsuperior.dscatalog.services;
 
+import java.util.Arrays;
+import java.util.List;
+
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.devsuperior.dscatalog.dto.ProductDTO;
+import com.devsuperior.dscatalog.entities.Category;
 import com.devsuperior.dscatalog.entities.Product;
 import com.devsuperior.dscatalog.repositories.CategoryRepository;
 import com.devsuperior.dscatalog.repositories.ProductRepository;
@@ -30,6 +34,13 @@ public class ProductService implements GenericService<Product, ProductDTO, Long>
 	}
 
 	@Transactional
+	public Page<ProductDTO> findAllPaged(Long categoryId, String name, PageRequest pageRequest) {
+		List<Category> categories = (categoryId == 0) ? null : Arrays.asList(categoryRepository.getOne(categoryId));
+		Page<Product> list = repository.find(categories, name, pageRequest);
+		return list.map(Product::convert);
+	}
+	
+	@Transactional
 	public ProductDTO insert(ProductDTO dto) {
 		Product entity = new Product();
 		copyDtoToEntity(dto, entity);
@@ -45,12 +56,6 @@ public class ProductService implements GenericService<Product, ProductDTO, Long>
 		} catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id not found: " + id);
 		}
-	}
-	
-	@Override
-	public Page<ProductDTO> findAllPaged(PageRequest pageRequest) {
-		Page<Product> list = getRepository().findAll(pageRequest);
-		return list.map(x -> new ProductDTO(x));
 	}
 
 	private Product copyDtoToEntity(ProductDTO dto, Product entity) {
