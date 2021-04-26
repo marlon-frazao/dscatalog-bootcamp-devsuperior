@@ -1,5 +1,6 @@
 package com.devsuperior.dscatalog.services;
 
+import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 
@@ -11,8 +12,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.devsuperior.dscatalog.dto.ProductDTO;
+import com.devsuperior.dscatalog.dto.UriDTO;
 import com.devsuperior.dscatalog.entities.Category;
 import com.devsuperior.dscatalog.entities.Product;
 import com.devsuperior.dscatalog.repositories.CategoryRepository;
@@ -27,6 +30,9 @@ public class ProductService implements GenericService<Product, ProductDTO, Long>
 	
 	@Autowired
 	private CategoryRepository categoryRepository;
+	
+	@Autowired
+	private S3Service s3Service;
 
 	@Override
 	public JpaRepository<Product, Long> getRepository() {
@@ -71,5 +77,11 @@ public class ProductService implements GenericService<Product, ProductDTO, Long>
 		dto.getCategories().forEach(catDto -> entity.getCategories().add(categoryRepository.getOne(catDto.getId())));
 		
 		return entity;
+	}
+
+	public UriDTO uploadFile(MultipartFile file) {
+		URL url = s3Service.uploadFile(file);
+		
+		return new UriDTO(url.toString());
 	}
 }

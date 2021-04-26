@@ -10,6 +10,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.amazonaws.AmazonClientException;
+import com.amazonaws.AmazonServiceException;
 import com.devsuperior.dscatalog.services.exceptions.DatabaseException;
 import com.devsuperior.dscatalog.services.exceptions.ResourceNotFoundException;
 
@@ -35,6 +37,27 @@ public class ResourceExceptionHandler {
 		HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
 
 		return ResponseEntity.status(status).body(getStandardError(e, request, status, "Validation Exception!"));
+	}
+	
+	@ExceptionHandler(AmazonServiceException.class)
+	public ResponseEntity<StandardError> amazonService(AmazonServiceException e, HttpServletRequest request) {
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+
+		return ResponseEntity.status(status).body(getStandardError(e, request, status, "AWS Exception"));
+	}
+	
+	@ExceptionHandler(AmazonClientException.class)
+	public ResponseEntity<StandardError> amazonClient(AmazonClientException e, HttpServletRequest request) {
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+
+		return ResponseEntity.status(status).body(getStandardError(e, request, status, "AWS Exception"));
+	}
+	
+	@ExceptionHandler(IllegalArgumentException.class)
+	public ResponseEntity<StandardError> illegalArgument(IllegalArgumentException e, HttpServletRequest request) {
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+
+		return ResponseEntity.status(status).body(getStandardError(e, request, status, "Bad request"));
 	}
 
 	private StandardError getStandardError(Exception e, HttpServletRequest request, HttpStatus status, String error) {
