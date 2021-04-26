@@ -36,8 +36,9 @@ public class ProductService implements GenericService<Product, ProductDTO, Long>
 	@Transactional
 	public Page<ProductDTO> findAllPaged(Long categoryId, String name, PageRequest pageRequest) {
 		List<Category> categories = (categoryId == 0) ? null : Arrays.asList(categoryRepository.getOne(categoryId));
-		Page<Product> list = repository.find(categories, name, pageRequest);
-		return list.map(Product::convert);
+		Page<Product> page = repository.find(categories, name, pageRequest);
+		repository.findProductWithCategories(page.getContent());
+		return page.map(Product::convert);
 	}
 	
 	@Transactional
