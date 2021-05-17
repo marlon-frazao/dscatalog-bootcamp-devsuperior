@@ -21,11 +21,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.devsuperior.dscatalog.dto.ProductDTO;
+import com.devsuperior.dscatalog.entities.Category;
 import com.devsuperior.dscatalog.entities.Product;
+import com.devsuperior.dscatalog.repositories.CategoryRepository;
 import com.devsuperior.dscatalog.repositories.ProductRepository;
 import com.devsuperior.dscatalog.services.ProductService;
 import com.devsuperior.dscatalog.services.exceptions.DatabaseException;
 import com.devsuperior.dscatalog.services.exceptions.ResourceNotFoundException;
+import com.devsuperior.dscatalog.tests.factory.CategoryFactory;
 import com.devsuperior.dscatalog.tests.factory.ProductFactory;
 
 @ExtendWith(SpringExtension.class)
@@ -36,12 +39,16 @@ public class ProductServiceTests {
 
 	@Mock
 	private ProductRepository repository;
+	
+	@Mock
+	private CategoryRepository categoryRepository;
 
 	private long existingId;
 	private long nonExistingId;
 	private long dependentId;
 	private Product product;
 	private PageImpl<Product> page;
+	private Category category;
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -49,11 +56,14 @@ public class ProductServiceTests {
 		nonExistingId = 1000000L;
 		dependentId = 4L;
 		product = ProductFactory.createProduct(existingId);
+		category = CategoryFactory.createCategory(existingId);
 		page = new PageImpl<>(List.of(product));
 
 		// Configurando comportamento simulado do Mock 
 		// Com retorno
 		Mockito.when(repository.getOne(existingId)).thenReturn(product);
+		
+		Mockito.when(categoryRepository.getOne(existingId)).thenReturn(category);
 		
 		Mockito.doThrow(EntityNotFoundException.class).when(repository).getOne(nonExistingId);
 		

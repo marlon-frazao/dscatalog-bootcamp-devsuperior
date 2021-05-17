@@ -10,7 +10,7 @@ public class ProductFactory {
 
 	public static Product createProduct() {
 		Product product = new Product(null, "Phone", "Good phone", 800.0, "http://img.com/img.png", Instant.parse("2021-04-20T03:00:00Z"));
-		product.getCategories().add(new Category(1L, ""));
+		product.getCategories().add(new Category(1L, "Teste"));
 		return product;
 	}
 	
