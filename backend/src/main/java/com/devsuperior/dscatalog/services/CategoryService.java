@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.devsuperior.dscatalog.dto.CategoryDTO;
 import com.devsuperior.dscatalog.entities.Category;
 import com.devsuperior.dscatalog.repositories.CategoryRepository;
+import com.devsuperior.dscatalog.services.exceptions.AlreadyExistsException;
 import com.devsuperior.dscatalog.services.exceptions.ResourceNotFoundException;
 
 @Service
@@ -25,6 +26,9 @@ public class CategoryService implements GenericService<Category, CategoryDTO, Lo
 	
 	@Transactional
 	public CategoryDTO insert(CategoryDTO dto) {
+		if(repository.findByName(dto.getName()) != null) {
+			throw new AlreadyExistsException("Entity already exists");
+		}
 		Category entity = new Category(null, dto.getName());
 
 		return repository.save(entity).convert();

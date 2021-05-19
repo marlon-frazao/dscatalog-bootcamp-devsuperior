@@ -7,4 +7,5 @@ import com.devsuperior.dscatalog.entities.Category;
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
+	Category findByName(String name);
 }

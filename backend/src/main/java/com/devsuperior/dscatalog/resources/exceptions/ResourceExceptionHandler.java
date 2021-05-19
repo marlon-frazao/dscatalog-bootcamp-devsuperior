@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
+import com.devsuperior.dscatalog.services.exceptions.AlreadyExistsException;
 import com.devsuperior.dscatalog.services.exceptions.DatabaseException;
 import com.devsuperior.dscatalog.services.exceptions.ResourceNotFoundException;
 
@@ -23,6 +24,13 @@ public class ResourceExceptionHandler {
 		HttpStatus status = HttpStatus.NOT_FOUND;
 
 		return ResponseEntity.status(status).body(getStandardError(e, request, status, "Resource not found!"));
+	}
+	
+	@ExceptionHandler(AlreadyExistsException.class)
+	public ResponseEntity<StandardError> entityAlreadyExists(AlreadyExistsException e, HttpServletRequest request) {
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+
+		return ResponseEntity.status(status).body(getStandardError(e, request, status, "Entity already exists!"));
 	}
 
 	@ExceptionHandler(DatabaseException.class)
