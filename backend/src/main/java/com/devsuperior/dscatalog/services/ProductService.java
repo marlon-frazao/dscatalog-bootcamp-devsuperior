@@ -51,6 +51,9 @@ public class ProductService implements GenericService<Product, ProductDTO, Long>
 	public ProductDTO insert(ProductDTO dto) {
 		Product entity = new Product();
 		copyDtoToEntity(dto, entity);
+		if(entity.getCategories().size() == 0) {
+			entity.getCategories().add(categoryRepository.getOne(1L));
+		}
 		return repository.save(entity).convert();
 	}
 
@@ -59,6 +62,9 @@ public class ProductService implements GenericService<Product, ProductDTO, Long>
 		try {
 			Product entity = repository.getOne(id);
 			copyDtoToEntity(dto, entity);
+			if(entity.getCategories().size() == 0) {
+				entity.getCategories().add(categoryRepository.getOne(1L));
+			}
 			return repository.save(entity).convert();
 		} catch (EntityNotFoundException e) {
 			throw new ResourceNotFoundException("Id not found: " + id);
