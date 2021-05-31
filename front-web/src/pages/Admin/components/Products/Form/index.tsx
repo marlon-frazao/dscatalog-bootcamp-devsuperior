@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './styles.scss';
 import BaseForm from '../../BaseForm';
 import { makePrivateRequest } from 'core/utils/request';
