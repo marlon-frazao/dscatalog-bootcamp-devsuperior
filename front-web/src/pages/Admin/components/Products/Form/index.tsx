@@ -3,7 +3,7 @@ import './styles.scss';
 import BaseForm from '../../BaseForm';
 import { makePrivateRequest } from 'core/utils/request';
 import { useForm } from 'react-hook-form';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { useHistory } from 'react-router-dom';
 
 type FormState = {
@@ -24,7 +24,7 @@ const Form = () => {
                 history.push('/admin/products');
             })
             .catch(() => {
-                toast.error('Erro ao salvar produto!')
+                toast.error('Erro ao salvar produto!');
             });
     }
 
