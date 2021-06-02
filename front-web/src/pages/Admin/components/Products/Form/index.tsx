@@ -43,7 +43,7 @@ const Form = () => {
             data
         })
             .then(() => {
-                toast.success('Produto salvo com sucesso!');
+                toast.info('Produto salvo com sucesso!');
                 history.push('/admin/products');
             })
             .catch(() => {
