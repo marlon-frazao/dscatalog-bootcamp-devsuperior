@@ -27,7 +27,7 @@ const BaseForm = ({ title, children }: Props) => {
                     CANCELAR
                 </button>
                 <button className="btn btn-primary">
-                    CADASTRAR
+                    SALVAR
                 </button>
             </div>
         </div>
