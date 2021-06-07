@@ -1,33 +1,31 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import BaseForm from '../../BaseForm';
 import { makePrivateRequest, makeRequest } from 'core/utils/request';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import Select from 'react-select';
 import { useHistory, useParams } from 'react-router-dom';
 import './styles.scss';
+import { Category } from 'core/types/Product';
 
 type FormState = {
     name: string;
     price: string;
     description: string;
     imgUrl: string;
+    categories: Category[];
 }
 
 type ParamsType = {
     productId: string;
 }
 
-const options = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' }
-]
-
 const Form = () => {
-    const { register, handleSubmit, formState: { errors }, setValue } = useForm<FormState>();
+    const { register, handleSubmit, formState: { errors }, setValue, control } = useForm<FormState>();
     const history = useHistory();
     const { productId } = useParams<ParamsType>();
+    const [isLoadingCategory, setIsLoadingCategory] = useState(false);
+    const [categories, setCategories] = useState<Category[]>([]);
     const isEditing = productId !== 'create';
     const formTitle = isEditing ? 'EDITAR PRODUTO' : 'CADASTRAR UM PRODUTO';
 
@@ -39,9 +37,17 @@ const Form = () => {
                     setValue('price', response.data.price);
                     setValue('description', response.data.description);
                     setValue('imgUrl', response.data.imgUrl);
+                    setValue('categories', response.data.categories);
                 })
         }
     }, [productId, isEditing, setValue]);
+
+    useEffect(() => {
+        setIsLoadingCategory(true);
+        makeRequest({ url: '/categories' })
+            .then(response => setCategories(response.data.content))
+            .finally(() => setIsLoadingCategory(false));
+    }, []);
 
     const onSubmit = (data: FormState) => {
         makePrivateRequest({
@@ -81,12 +87,30 @@ const Form = () => {
                             )}
                         </div>
                         <div className="margin-bottom-30">
-                            <Select
-                                options={options}
-                                classNamePrefix="categories-select"
-                                placeholder="Categoria"
-                                isMulti
+                            <Controller
+                                name="categories"
+                                rules={{ required: true }}
+                                control={control}
+                                render={({ field: { onChange, value } }) => (
+                                    <Select
+                                        closeMenuOnSelect={false}
+                                        isLoading={isLoadingCategory}
+                                        onChange={onChange}
+                                        selected={value}
+                                        options={categories}
+                                        getOptionLabel={(option: Category) => option.name}
+                                        getOptionValue={(option: Category) => String(option.id)}
+                                        classNamePrefix="categories-select"
+                                        placeholder="Categoria"
+                                        isMulti
+                                    />
+                                )}
                             />
+                            {errors.categories && (
+                                <div className="invalid-feedback d-block">
+                                    Campo obrigatório
+                                </div>
+                            )}
                         </div>
                         <div className="margin-bottom-30">
                             <input
