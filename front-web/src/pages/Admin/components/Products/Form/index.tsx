@@ -26,7 +26,7 @@ const Form = () => {
     const { register, handleSubmit, formState: { errors }, setValue, control } = useForm<FormState>();
     const history = useHistory();
     const { productId } = useParams<ParamsType>();
-    const [isLoadingCategory, setIsLoadingCategory] = useState(false);
+    const [isLoadingCategories, setIsLoadingCategories] = useState(false);
     const [categories, setCategories] = useState<Category[]>([]);
     const [uploadedImgUrl, setUploadedImgUrl] = useState('');
     const [productImgUrl, setProductImgUrl] = useState('');
@@ -42,16 +42,17 @@ const Form = () => {
                     setValue('description', response.data.description);
                     setValue('categories', response.data.categories);
 
+                    console.log(response)
                     setProductImgUrl(response.data.imgUrl);
                 })
         }
     }, [productId, isEditing, setValue]);
 
     useEffect(() => {
-        setIsLoadingCategory(true);
+        setIsLoadingCategories(true);
         makeRequest({ url: '/categories' })
             .then(response => setCategories(response.data.content))
-            .finally(() => setIsLoadingCategory(false));
+            .finally(() => setIsLoadingCategories(false));
     }, []);
 
     const onSubmit = (data: FormState) => {
@@ -74,7 +75,7 @@ const Form = () => {
     }
 
     const onUploadSuccess = (imgUrl: string) => {
-        setUploadedImgUrl(imgUrl);
+        setUploadedImgUrl(imgUrl || productImgUrl);
     }
 
     return (
@@ -84,14 +85,16 @@ const Form = () => {
                     <div className="col-6">
                         <div className="margin-bottom-30">
                             <input
-                                {...register('name', {
+                                ref={register({
                                     required: "Campo obrigatório",
                                     minLength: { value: 5, message: 'O campo deve ter no mínimo 5 caracteres' },
                                     maxLength: { value: 60, message: 'O campo deve ter no máximo 60 caracteres' }
                                 })}
+                                name="name"
                                 type="text"
                                 className="form-control input-base"
                                 placeholder="Nome do produto"
+                                data-testid="name"
                             />
                             {errors.name && (
                                 <div className="invalid-feedback d-block">
@@ -102,23 +105,18 @@ const Form = () => {
                         <div className="margin-bottom-30">
                             <Controller
                                 name="categories"
-                                defaultValue=""
+                                as={Select}
+                                options={categories}
+                                isLoading={isLoadingCategories}
+                                getOptionLabel={(option: Category) => option.name}
+                                getOptionValue={(option: Category) => String(option.id)}
+                                classNamePrefix="categories-select"
+                                placeholder="Categorias"
+                                inputId="categories"
                                 rules={{ required: true }}
                                 control={control}
-                                render={({ field: { onChange, value } }) => (
-                                    <Select
-                                        closeMenuOnSelect={false}
-                                        isLoading={isLoadingCategory}
-                                        onChange={onChange}
-                                        selected={value}
-                                        options={categories}
-                                        getOptionLabel={(option: Category) => option.name}
-                                        getOptionValue={(option: Category) => String(option.id)}
-                                        classNamePrefix="categories-select"
-                                        placeholder="Categorias"
-                                        isMulti
-                                    />
-                                )}
+                                defaultValue=""
+                                isMulti
                             />
                             {errors.categories && (
                                 <div className="invalid-feedback d-block">
@@ -143,9 +141,8 @@ const Form = () => {
                     </div>
                     <div className="col-6">
                         <textarea
-                            {...register('description', {
-                                required: "Campo obrigatório"
-                            })}
+                            ref={register({ required: "Campo obrigatório" })}
+                            name="description"
                             className="form-control input-base"
                             placeholder="Descrição"
                             cols={30}

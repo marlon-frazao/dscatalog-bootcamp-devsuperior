@@ -13,7 +13,7 @@ const PriceField = ({ control }: Props) => (
         defaultValue=""
         control={control}
         rules={{ required: "Campo obrigatório" }}
-        render={({ field: { value, onChange } }) => (
+        render={({ value, onChange }) => (
             <CurrencyInput
                 placeholder="Preço"
                 className="form-control input-base"
