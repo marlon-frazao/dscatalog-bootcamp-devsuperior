@@ -49,7 +49,8 @@ const Login = () => {
                         type="email"
                         className={`form-control input-base ${errors.username ? 'is-invalid' : ''}`}
                         placeholder="Email"
-                        {...register('username', {
+                        name='username'
+                        ref={register({
                             required: "Campo obrigatório", pattern: {
                                 value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                                 message: "Email inválido"
@@ -67,7 +68,8 @@ const Login = () => {
                         type="password"
                         className={`form-control input-base form-control input-base ${errors.password ? 'is-invalid' : ''}`}
                         placeholder="Senha"
-                        {...register('password', { required: "Campo obrigatório" })}
+                        name='password'
+                        ref={register({ required: "Campo obrigatório" })}
                     />
                     {errors.password && (
                         <div className="invalid-feedback d-block">
