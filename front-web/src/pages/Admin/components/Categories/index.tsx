@@ -1,12 +1,13 @@
 import React from 'react';
 import { Route, Switch } from 'react-router';
+import List from './List';
 
 const Categories = () => {
     return (
         <div>
             <Switch>
                 <Route path="/admin/categories" exact>
-                    Categorias
+                    <List />
                 </Route>
                 <Route path="/admin/categories/:categoryId">
 

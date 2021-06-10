@@ -1,5 +1,5 @@
 import Pagiantion from 'core/components/Pagination';
-import { Category, ProductsResponse } from 'core/types/Product';
+import { ProductsResponse } from 'core/types/Product';
 import { makePrivateRequest, makeRequest } from 'core/utils/request';
 import React, { useEffect, useState, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import Card from '../Card';
 import CardLoader from '../Loaders/ProductCardLoader';
 import ProductFilters from 'core/components/ProductFilters';
+import { Category } from 'core/types/Category';
 
 const List = () => {
     const history = useHistory();

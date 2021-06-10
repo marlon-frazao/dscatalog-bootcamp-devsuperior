@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import Select from 'react-select';
 import { useHistory, useParams } from 'react-router-dom';
 import './styles.scss';
-import { Category } from 'core/types/Product';
+import { Category } from 'core/types/Category';
 import PriceField from './PriceField';
 import ImageUpload from '../ImageUpload';
 

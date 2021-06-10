@@ -3,7 +3,7 @@ import { ReactComponent as SearchIcon } from 'core/assets/images/search-icon.svg
 import Select from 'react-select';
 import './styles.scss';
 import { makeRequest } from 'core/utils/request';
-import { Category } from 'core/types/Product';
+import { Category } from 'core/types/Category';
 
 type Props = {
     name?: string;

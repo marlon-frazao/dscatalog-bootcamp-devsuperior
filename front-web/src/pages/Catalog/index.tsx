@@ -1,12 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Category, ProductsResponse } from 'core/types/Product';
+import { ProductsResponse } from 'core/types/Product';
 import { makeRequest } from 'core/utils/request';
 import ProductCard from './components/ProductCard';
 import ProductCardLoader from './components/Loaders/ProductCardLoader';
 import './styles.scss';
 import Pagiantion from 'core/components/Pagination';
 import ProductFilters from 'core/components/ProductFilters';
+import { Category } from 'core/types/Category';
 
 
 const Catalog = () => {
