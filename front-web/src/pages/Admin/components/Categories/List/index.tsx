@@ -1,9 +1,11 @@
 import { CategoriesResponse } from 'core/types/Category';
+import Pagination from 'core/components/Pagination';
 import { makePrivateRequest, makeRequest } from 'core/utils/request';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Card from '../Card';
+import NewCategoryForm from '../NewCategoryForm/NewCategoryForm';
 
 const List = () => {
     const history = useHistory();
@@ -61,6 +63,10 @@ const List = () => {
         setName('');
     }
 
+    const handleOnSave = () => {
+        getCategories();
+    }
+
     return (
         <div>
             <div>
@@ -73,6 +79,18 @@ const List = () => {
                     <Card category={category} key={category.id} onRemove={onRemove} />
                 ))}
             </div>
+            <div>
+                {categoriesResponse?.totalPages === activePage + 1 ?
+                    <NewCategoryForm onSave={handleOnSave} /> : ''
+                }
+            </div>
+            {categoriesResponse && (
+                <Pagination
+                    totalPages={categoriesResponse.totalPages}
+                    activePage={activePage}
+                    onChange={page => setActivePage(page)}
+                />
+            )}
         </div>
     )
 }

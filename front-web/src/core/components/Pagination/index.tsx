@@ -8,7 +8,7 @@ type Props = {
     activePage: number;
     onChange: (item: number) => void;
 }
-const Pagiantion = ({ totalPages, activePage, onChange }: Props) => {
+const Pagination = ({ totalPages, activePage, onChange }: Props) => {
     const items = generateList(totalPages);
     const previousClass = totalPages > 0 && activePage > 0 ? 'page-active' : 'page-inactive';
     const nextClass = (activePage + 1) < totalPages ? 'page-active' : 'page-inactive';
@@ -35,4 +35,4 @@ const Pagiantion = ({ totalPages, activePage, onChange }: Props) => {
     );
 }
 
-export default Pagiantion;
+export default Pagination;

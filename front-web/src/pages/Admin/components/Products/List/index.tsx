@@ -1,4 +1,4 @@
-import Pagiantion from 'core/components/Pagination';
+import Pagination from 'core/components/Pagination';
 import { ProductsResponse } from 'core/types/Product';
 import { makePrivateRequest, makeRequest } from 'core/utils/request';
 import React, { useEffect, useState, useCallback } from 'react';
@@ -96,7 +96,7 @@ const List = () => {
                 )}
             </div>
             {productsResponse && (
-                <Pagiantion
+                <Pagination
                     totalPages={productsResponse.totalPages}
                     activePage={activePage}
                     onChange={page => setActivePage(page)}
