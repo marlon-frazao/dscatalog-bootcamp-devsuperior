@@ -8,11 +8,7 @@ type FormState = {
     name: string;
 }
 
-type Props = {
-    onSave: (categoryName: string) => void;
-}
-
-const NewCategoryForm = ({ onSave }: Props) => {
+const NewCategoryForm = () => {
     const { register, handleSubmit, formState: { errors } } = useForm<FormState>();
 
     const onSubmit = (data: FormState) => {
@@ -26,7 +22,6 @@ const NewCategoryForm = ({ onSave }: Props) => {
         })
             .then(() => {
                 toast.info('Categoria salva com sucesso!');
-                onSave(data.name);
                 history.push('/admin/categories');
             })
             .catch(() => {
@@ -37,6 +32,7 @@ const NewCategoryForm = ({ onSave }: Props) => {
 
     return (
         <div className="card-base border-radius-10 new-category-card">
+            Cadastrar uma Categoria
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="row">
                     <div className="col-9">
@@ -67,4 +63,4 @@ const NewCategoryForm = ({ onSave }: Props) => {
     )
 }
 
-export default NewCategoryForm
+export default NewCategoryForm;
