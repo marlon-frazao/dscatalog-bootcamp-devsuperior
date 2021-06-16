@@ -17,7 +17,7 @@ const Card = ({ category, onRemove }: Props) => {
                 </div>
                 <div className="col-6 d-flex">
                     <Link
-                        to={`/admin/category/${category.id}`}
+                        to={`/admin/categories/${category.id}`}
                         type="button"
                         className="btn btn-outline-secondary border-radius-10 category-btn"
                     >

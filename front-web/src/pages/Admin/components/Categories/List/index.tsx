@@ -3,6 +3,7 @@ import Pagination from 'core/components/Pagination';
 import { makePrivateRequest, makeRequest } from 'core/utils/request';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import CardLoader from '../Loaders/CategoryCardLoader';
 import { toast } from 'react-toastify';
 import Card from '../Card';
 
@@ -70,9 +71,11 @@ const List = () => {
                 </button>
             </div>
             <div>
-                {categoriesResponse?.content.map(category => (
-                    <Card category={category} key={category.id} onRemove={onRemove} />
-                ))}
+                {isLoading ? <CardLoader /> : (
+                    categoriesResponse?.content.map(category => (
+                        <Card category={category} key={category.id} onRemove={onRemove} />
+                    ))
+                )}
             </div>
             {categoriesResponse && (
                 <Pagination

@@ -2,22 +2,41 @@ import './styles.scss';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import history from 'core/utils/history';
-import { makePrivateRequest } from 'core/utils/request';
+import { makePrivateRequest, makeRequest } from 'core/utils/request';
+import BaseForm from '../../BaseForm';
+import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
 
 type FormState = {
     name: string;
 }
 
+type ParamsType = {
+    categoryId: string;
+}
+
 const NewCategoryForm = () => {
-    const { register, handleSubmit, formState: { errors } } = useForm<FormState>();
+    const { register, handleSubmit, formState: { errors }, setValue } = useForm<FormState>();
+    const { categoryId } = useParams<ParamsType>();
+    const isEditing = categoryId !== 'create';
+    const formTitle = isEditing ? 'EDITAR CATEGORIA' : 'CADASTRAR UMA CATEGORIA';
+
+    useEffect(() => {
+        if (isEditing) {
+            makeRequest({ url: `/categories/${categoryId}` })
+                .then(response => {
+                    setValue('name', response.data.name);
+                })
+        }
+    }, [categoryId, isEditing, setValue]);
 
     const onSubmit = (data: FormState) => {
         const payload = {
             ...data,
         }
         makePrivateRequest({
-            url: '/categories',
-            method: "POST",
+            url: isEditing ? `/categories/${categoryId}` : '/categories',
+            method: isEditing ? "PUT" : "POST",
             data: payload
         })
             .then(() => {
@@ -31,9 +50,8 @@ const NewCategoryForm = () => {
     }
 
     return (
-        <div className="card-base border-radius-10 new-category-card">
-            Cadastrar uma Categoria
-            <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+            <BaseForm title={formTitle}>
                 <div className="row">
                     <div className="col-9">
                         <div >
@@ -54,12 +72,9 @@ const NewCategoryForm = () => {
                             )}
                         </div>
                     </div>
-                    <button className="btn btn-primary col-3 save-category-buttom">
-                        SALVAR
-                    </button>
                 </div>
-            </form>
-        </div>
+            </BaseForm>
+        </form>
     )
 }
 
