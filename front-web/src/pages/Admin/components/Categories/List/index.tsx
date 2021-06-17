@@ -6,6 +6,7 @@ import { useHistory } from 'react-router-dom';
 import CardLoader from '../Loaders/CategoryCardLoader';
 import { toast } from 'react-toastify';
 import Card from '../Card';
+import './styles.scss';
 
 const List = () => {
     const history = useHistory();
@@ -66,7 +67,7 @@ const List = () => {
     return (
         <div>
             <div>
-                <button className="btn btn-primary btn-lg" onClick={handleCreate}>
+                <button className="btn btn-primary btn-lg btn-add" onClick={handleCreate}>
                     ADICIONAR
                 </button>
             </div>
