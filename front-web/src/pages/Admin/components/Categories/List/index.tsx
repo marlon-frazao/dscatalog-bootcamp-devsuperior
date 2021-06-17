@@ -6,7 +6,9 @@ import { useHistory } from 'react-router-dom';
 import CardLoader from '../Loaders/CategoryCardLoader';
 import { toast } from 'react-toastify';
 import Card from '../Card';
+import CategoryFilters from '../CategoryFilters';
 import './styles.scss';
+import { OrderBy } from 'core/types/OrderBy';
 
 const List = () => {
     const history = useHistory();
@@ -14,13 +16,16 @@ const List = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [activePage, setActivePage] = useState(0);
     const [name, setName] = useState('');
+    const [orderBy, setOrderBy] = useState<OrderBy>();
 
     const getCategories = useCallback(() => {
         const params = {
             page: activePage,
             linesPerPage: 8,
-            direction: 'DESC',
-            orderBy: 'id'
+            direction: orderBy?.direction,
+            orderBy: orderBy?.orderBy,
+            name,
+            orderById: orderBy?.id
         }
 
         setIsLoading(true);
@@ -29,7 +34,7 @@ const List = () => {
             .finally(() => {
                 setIsLoading(false);
             })
-    }, [activePage]);
+    }, [activePage, name, orderBy]);
 
     useEffect(() => {
         getCategories();
@@ -62,14 +67,27 @@ const List = () => {
     const clearFilters = () => {
         setActivePage(0);
         setName('');
+        setOrderBy(undefined);
+    }
+
+    const handleChangeOrderBy = (orderBy: OrderBy) => {
+        setActivePage(0);
+        setOrderBy(orderBy);
     }
 
     return (
         <div>
-            <div>
-                <button className="btn btn-primary btn-lg btn-add" onClick={handleCreate}>
+            <div className="d-flex justify-content-between top">
+                <button className="btn btn-primary btn-lg" onClick={handleCreate}>
                     ADICIONAR
                 </button>
+                <CategoryFilters
+                    name={name}
+                    handleChangeName={handleChangeName}
+                    clearFilters={clearFilters}
+                    handleChangeOrderBy={handleChangeOrderBy}
+                    orderBy={orderBy}
+                />
             </div>
             <div>
                 {isLoading ? <CardLoader /> : (

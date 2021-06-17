@@ -3,6 +3,8 @@ package com.devsuperior.dscatalog.services;
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +24,11 @@ public class CategoryService implements GenericService<Category, CategoryDTO, Lo
 	@Override
 	public JpaRepository<Category, Long> getRepository() {
 		return repository;
+	}
+	
+	@Transactional(readOnly = true)
+	public Page<CategoryDTO> findAllPaged(String name, PageRequest pageRequest) {
+		return repository.find(name, pageRequest).map(Category::convert);
 	}
 	
 	@Transactional
