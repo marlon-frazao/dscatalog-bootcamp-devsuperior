@@ -1,21 +1,20 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import List from './List';
-import NewCategoryForm from './NewCategoryForm';
 
-const Categories = () => {
+const Users = () => {
     return (
         <div>
             <Switch>
-                <Route path="/admin/categories" exact>
+                <Route path="/admin/users" exact>
                     <List />
                 </Route>
-                <Route path="/admin/categories/:categoryId">
-                    <NewCategoryForm />
+                <Route path="/admin/users/:usersId">
+
                 </Route>
             </Switch>
         </div>
-    )
+    );
 }
 
-export default Categories;
+export default Users;

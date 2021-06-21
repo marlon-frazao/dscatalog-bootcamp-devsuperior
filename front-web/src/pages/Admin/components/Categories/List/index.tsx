@@ -44,11 +44,11 @@ const List = () => {
         history.push('/admin/categories/create');
     }
 
-    const onRemove = (productId: number) => {
+    const onRemove = (categoryId: number) => {
         const confirm = window.confirm('Deseja realmente excluir esta categoria?');
 
         if (confirm) {
-            makePrivateRequest({ url: `/categories/${productId}`, method: 'DELETE' })
+            makePrivateRequest({ url: `/categories/${categoryId}`, method: 'DELETE' })
                 .then(() => {
                     toast.info('Categoria excluída com sucesso!');
                     getCategories();
