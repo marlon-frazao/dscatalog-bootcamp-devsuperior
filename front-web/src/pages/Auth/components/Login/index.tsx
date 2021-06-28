@@ -88,7 +88,7 @@ const Login = () => {
                     <span className="not-registred">
                         Não tem Cadastro?
                     </span>
-                    <Link to="//auth/register" className="login-link-register">
+                    <Link to="/auth/register" className="login-link-register">
                         CADASTRAR
                     </Link>
                 </div>

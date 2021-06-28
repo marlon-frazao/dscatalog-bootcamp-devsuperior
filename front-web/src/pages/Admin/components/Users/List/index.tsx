@@ -35,7 +35,7 @@ const List = () => {
     }, [getUsers]);
 
     const handleCreate = () => {
-        history.push('/admin/users/create');
+        history.push('/auth/register');
     }
 
     const onRemove = (userId: number) => {

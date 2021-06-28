@@ -3,6 +3,8 @@ import { ReactComponent as AuthImage } from 'core/assets/images/auth.svg';
 import './styles.scss';
 import { Route, Switch } from 'react-router';
 import Login from './components/Login';
+import Register from './components/Register';
+import PrivateRoute from 'core/components/Routes/PrivateRoute';
 
 const Auth = () => (
     <div className="auth-container">
@@ -20,9 +22,9 @@ const Auth = () => (
                 <Route path="/auth/login">
                     <Login />
                 </Route>
-                <Route path="/auth/register">
-                    <h1>Cadastro</h1>
-                </Route>
+                <PrivateRoute path="/auth/register" allowedRoutes={['ROLE_ADMIN']}>
+                    <Register />
+                </PrivateRoute>
                 <Route path="/auth/recover">
                     <h1>Recuperar senha</h1>
                 </Route>
