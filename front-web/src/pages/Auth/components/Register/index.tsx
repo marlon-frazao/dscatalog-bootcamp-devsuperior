@@ -15,7 +15,7 @@ type FormState = {
 }
 
 const Register = () => {
-    const { register, handleSubmit, formState: { errors }, control } = useForm<FormState>();
+    const { register, formState: { errors }, control } = useForm<FormState>();
     const [roles, setRoles] = useState<Role[]>([]);
     const [isLoadingRoles, setIsLoadingRoles] = useState(false);
 

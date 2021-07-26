@@ -9,7 +9,6 @@ import './styles.scss';
 const List = () => {
     const history = useHistory();
     const [usersResponse, setUsersResponse] = useState<UsersResponse>();
-    const [isLoading, setIsLoading] = useState(false);
     const [activePage, setActivePage] = useState(0);
     const [name, setName] = useState('');
 
@@ -22,12 +21,9 @@ const List = () => {
             name,
         }
 
-        setIsLoading(true);
+
         makePrivateRequest({ url: '/users', params })
             .then(response => setUsersResponse(response.data))
-            .finally(() => {
-                setIsLoading(false);
-            })
     }, [activePage, name,]);
 
     useEffect(() => {
@@ -51,16 +47,6 @@ const List = () => {
                     toast.error('Erro ao excluir usuário!');
                 });
         }
-    }
-
-    const handleChangeName = (name: string) => {
-        setActivePage(0);
-        setName(name);
-    }
-
-    const clearFilters = () => {
-        setActivePage(0);
-        setName('');
     }
 
     return (

@@ -21,7 +21,7 @@ const CategoryFilters = (
         orderBy
     }: Props
 ) => {
-    const [ordersBy, setOrdersBy] = useState<OrderBy[]>([{ id: 1, name: "Filtrar por Recentes", orderBy: "id", direction: "ASC" },
+    const [ordersBy] = useState<OrderBy[]>([{ id: 1, name: "Filtrar por Recentes", orderBy: "id", direction: "ASC" },
     { id: 2, name: "Filtrar por mais Antigos", orderBy: "id", direction: "DESC" },
     { id: 3, name: "Filtrar de A a Z", orderBy: "name", direction: "ASC" },
     { id: 4, name: "Filtrar de Z a A", orderBy: "name", direction: "DESC" }]);
