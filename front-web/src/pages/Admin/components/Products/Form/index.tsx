@@ -42,7 +42,6 @@ const Form = () => {
                     setValue('description', response.data.description);
                     setValue('categories', response.data.categories);
 
-                    console.log(response)
                     setProductImgUrl(response.data.imgUrl);
                 })
         }

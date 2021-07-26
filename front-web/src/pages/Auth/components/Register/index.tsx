@@ -1,8 +1,9 @@
-import { Role } from 'core/utils/auth';
-import React from 'react';
-import { useForm } from 'react-hook-form';
+import { Role } from 'core/types/Users';
+import { makePrivateRequest } from 'core/utils/request';
+import React, { useEffect, useState } from 'react';
+import { useForm, Controller } from 'react-hook-form';
+import Select from 'react-select';
 import AuthCard from '../Card'
-import ButtonIcon from 'core/components/ButtonIcon';
 import './styles.scss';
 
 type FormState = {
@@ -14,7 +15,17 @@ type FormState = {
 }
 
 const Register = () => {
-    const { register, handleSubmit, formState: { errors } } = useForm<FormState>();
+    const { register, handleSubmit, formState: { errors }, control } = useForm<FormState>();
+    const [roles, setRoles] = useState<Role[]>([]);
+    const [isLoadingRoles, setIsLoadingRoles] = useState(false);
+
+    useEffect(() => {
+        setIsLoadingRoles(true);
+        makePrivateRequest({ url: '/roles' })
+            .then(response => setRoles(response.data.content))
+            .then(response => console.log(response))
+            .finally(() => setIsLoadingRoles(false))
+    }, []);
 
     return (
         <div>
@@ -107,6 +118,28 @@ const Register = () => {
                         {errors.password && (
                             <div className="invalid-feedback d-block">
                                 {errors.password.message}
+                            </div>
+                        )}
+                    </div>
+                    <div className="margin-bottom-30">
+                        <Controller
+                            name="roles"
+                            as={Select}
+                            options={roles}
+                            isLoading={isLoadingRoles}
+                            getOptionLabel={(option: Role) => option.authority}
+                            getOptionValue={(option: Role) => String(option.id)}
+                            classNamePrefix="roles-select"
+                            placeholder="Nível de permissão"
+                            inputId="roles"
+                            rules={{ required: true }}
+                            control={control}
+                            defaultValue=""
+                            isMulti
+                        />
+                        {errors.roles && (
+                            <div className="invalid-feedback d-block">
+                                Campo obrigatório
                             </div>
                         )}
                     </div>

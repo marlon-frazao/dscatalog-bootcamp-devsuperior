@@ -20,3 +20,17 @@ p {
     letter-spacing: -0.015em;
     color: #407BFF;
 }
+
+.roles-select__control {
+    height: 40px;
+    border-radius: 10px !important;
+    border: 1px solid #e1e1e1 !important;
+}
+
+.roles-select__indicator-separator {
+    display: none;
+}
+
+.roles-select__placeholder{
+    color: #9e9e9e;
+}
