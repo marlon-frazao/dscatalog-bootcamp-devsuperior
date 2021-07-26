@@ -5,7 +5,7 @@
 
 DSCatalog é uma aplicação full stack web e mobile, construída durante o Bootcamp da DevSuperior. 
 
-A aplicação consiste em um catálogo de produtos, onde o usuário pode encontrar, cadastrar, atualizar e excluir produtos e catagorias de produtos.
+A aplicação consiste em um catálogo de produtos, onde o usuário pode encontrar, cadastrar, atualizar e excluir produtos e categorias de produtos.
 
 ## Modelo conceitual
 ![Modelo Conceitual](https://github.com/marlon-frazao/dscatalog-bootcamp-devsuperior/blob/main/assets/modelo-conceitual.PNG)
