@@ -5,7 +5,6 @@ import Products from './components/Products';
 import './styles.scss';
 import PrivateRoute from 'core/components/Routes/PrivateRoute';
 import Categories from './components/Categories';
-import Users from './components/Users';
 
 const Admin = () => (
     <div className="admin-container">
@@ -17,9 +16,6 @@ const Admin = () => (
                 </PrivateRoute>
                 <PrivateRoute path="/admin/categories">
                     <Categories />
-                </PrivateRoute>
-                <PrivateRoute path="/admin/users" allowedRoutes={['ROLE_ADMIN']}>
-                    <Users />
                 </PrivateRoute>
             </Switch>
         </div>
