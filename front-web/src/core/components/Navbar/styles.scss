@@ -1,26 +1,33 @@
 .main-nav {
     height: 70px;
     color: #ffffff;
+    display: flex;
+    flex-wrap: nowrap;
     align-items: center;
-    padding-left: 40px;
-    padding-right: 40px;
-    margin-left: 0;
-    margin-right: 0;
+    padding: 0px 40px;
+    margin: 0px;
 }
 
 .nav-logo-text {
+    width: 30%;
     color: #ffffff;
 }
 
-.main-menu {
+.menu-container {
+    width: 55%;
     display: flex;
-    font-size: 18px;
+    flex: 1;
     justify-content: center;
+    flex-wrap: nowrap;
+}
 
-    li:nth-child(2) {
-        margin-right: 85px;
-        margin-left: 85px;
-    }  
+.main-menu {
+    max-width: 300px;
+    display: flex;
+    flex: 1;
+    font-size: 18px;
+    justify-content: space-between;
+    align-items: flex-end;
 }
 
 .nav-link {
@@ -37,3 +44,18 @@
         color: #ffffff;
     }  
 }
+
+// mobile breakpoints -- Responsividade -- 
+
+@media (max-width: 768px) {
+    .menu-container {
+        justify-content: flex-end;
+    }
+}
+
+@media (max-width: 576px) {
+    .menu-container {
+        border: 1px solid green;
+    }
+}
+
