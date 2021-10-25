@@ -1,5 +1,6 @@
 # DSCatalog
 [![NPM](https://img.shields.io/npm/l/react)](https://github.com/marlon-frazao/dscatalog-bootcamp-devsuperior/blob/main/LICENSE) 
+[![Build Status](https://travis-ci.com/marlon-frazao/dscatalog-bootcamp-devsuperior.svg?branch=main)](https://travis-ci.com/marlon-frazao/dscatalog-bootcamp-devsuperior)
 
 # Sobre o projeto
 
