@@ -80,7 +80,7 @@ const Form = () => {
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <BaseForm title={formTitle}>
-                <div className="row">
+                <div className="product-form-container">
                     <div className="col-6">
                         <div className="margin-bottom-30">
                             <input
